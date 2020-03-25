@@ -1,10 +1,8 @@
 const express = require('express');
 
-const app = express();
+const routes = express.Router();
 
-app.use(express.json());
-
-app.post('/users', (request, response) => {
+routes.post('/users', (request, response) => {
 
   const body = request.body;
 
@@ -12,11 +10,9 @@ app.post('/users', (request, response) => {
 
   return response.json({
     evento: 'Teste Hello World',
-    aluno: 'José Roberto de Oliveira'
+    aluno: 'José Roberto'
   });
 
 });
 
-
-
-app.listen(3333);
+module.exports = routes;
