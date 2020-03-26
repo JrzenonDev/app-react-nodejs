@@ -1,0 +1,21 @@
+Backend:
+
+  Pacotes utilizados:
+    express
+    knex
+      Comandos do knex:
+        criar migrations: (knex migrate:make migration_name)
+        criar tabela: (knex migrate:latest), isso após fazer o createTable no arquivo de migrations
+
+  Estrutura banco de dados:
+
+    Entidades:
+      ong, caso(incident),
+
+  Funcionalidades:
+    login da ong, logout de ong, cadastro de ong, cadastro de casos, deletar casos, listar casos específicos de uma ong, listar todos os casos, entrar em contato com a ong.
+
+
+
+
+
