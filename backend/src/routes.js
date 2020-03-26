@@ -1,18 +1,33 @@
 const express = require('express');
+const crypto = require('crypto');
+const connection = require('./database/connection');
 
 const routes = express.Router();
 
-routes.post('/users', (request, response) => {
+routes.get('/ongs', async(request, response) => {
+  const ongs = await connection('ongs').select('*');
 
-  const body = request.body;
+  return response.json(ongs);
+});
 
-  console.log(body);
+routes.post('/ongs', async(request, response) => {
 
-  return response.json({
-    evento: 'Teste Hello World',
-    aluno: 'José Roberto'
-  });
+  const { name, email, whatsapp, city, uf } = request.body;
 
+  // gera um valor de 4bites em hexadecimal para o id para ser aleatório
+  const id = crypto.randomBytes(4).toString('HEX');
+
+  // conexão com bd
+  await connection('ongs').insert({
+    id,
+    name,
+    email,
+    whatsapp,
+    city,
+    uf,
+  })
+
+  return response.json({ id });
 });
 
 module.exports = routes;
