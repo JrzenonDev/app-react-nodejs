@@ -3,7 +3,27 @@ const connection = require('../database/connection');
 module.exports = {
 
   async index(request, response) {
-    const incident = await connection('incidents').select('*');
+
+    const { page = 1 } = request.query;
+
+    // [count] pega a primeira posição do array
+    const [count] = await connection('incidents').count();
+
+    const incident = await connection('incidents')
+      .join('ongs', 'ongs.id', '=', 'incidents.ong_id')
+      .limit(5)
+      .offset((page - 1) * 5) // paginação para pegar de cinco em cinco
+      .select([
+        'incidents.*',
+        'ongs.name',
+        'ongs.email',
+        'ongs.whatsapp',
+        'ongs.city',
+        'ongs.uf'
+      ]);
+
+
+    response.header('X-Total-Count', count['count(*)']);
 
     return response.json(incident);
   },
